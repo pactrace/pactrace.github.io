@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 700" role="img" aria-labelledby="title desc">
+<title id="title">PacTrace runtime decision path</title>
+<desc id="desc">Evidence is collected, normalized, evaluated against a contract, then accepted, disclosed, reconciled through fallback, or rejected.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#64748b"/></marker></defs>
+<rect width="1320" height="700" rx="34" fill="#ffffff"/>
+<text x="70" y="70" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30" font-weight="750" fill="#0f172a">One evidence set. Four explicit outcomes.</text>
+<text x="70" y="108" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" fill="#64748b">Fallback is a recovery path: reconcile, collect updated evidence, then evaluate again.</text>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+<rect x="70" y="180" width="240" height="100" rx="20" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="190" y="222" text-anchor="middle" font-size="18" font-weight="750" fill="#0f172a">Collect evidence</text>
+<text x="190" y="251" text-anchor="middle" font-size="15" fill="#64748b">source-native observations</text>
+<path d="M310 230H385" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<rect x="400" y="180" width="240" height="100" rx="20" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="520" y="222" text-anchor="middle" font-size="18" font-weight="750" fill="#0f172a">Normalize provenance</text>
+<text x="520" y="251" text-anchor="middle" font-size="15" fill="#64748b">version · lineage · age</text>
+<path d="M640 230H715" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<rect x="730" y="180" width="240" height="100" rx="20" fill="#eff6ff" stroke="#93c5fd"/>
+<text x="850" y="222" text-anchor="middle" font-size="18" font-weight="750" fill="#1e3a8a">Evaluate contract</text>
+<text x="850" y="251" text-anchor="middle" font-size="15" fill="#475569">task-specific consistency</text>
+</g>
+<path d="M850 280V340" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+<rect x="70" y="370" width="245" height="130" rx="22" fill="#f0fdf4" stroke="#86efac"/>
+<text x="192" y="414" text-anchor="middle" font-size="19" font-weight="800" fill="#166534">ACCEPT</text>
+<text x="192" y="449" text-anchor="middle" font-size="15" fill="#475569">Requirements satisfied</text>
+<text x="192" y="475" text-anchor="middle" font-size="15" fill="#475569">Use normally</text>
+<rect x="355" y="370" width="245" height="130" rx="22" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="477" y="414" text-anchor="middle" font-size="19" font-weight="800" fill="#334155">DISCLOSE</text>
+<text x="477" y="449" text-anchor="middle" font-size="15" fill="#475569">Allowed limitation exists</text>
+<text x="477" y="475" text-anchor="middle" font-size="15" fill="#475569">Use with disclosure</text>
+<rect x="640" y="370" width="245" height="130" rx="22" fill="#fffbeb" stroke="#fbbf24"/>
+<text x="762" y="414" text-anchor="middle" font-size="19" font-weight="800" fill="#92400e">FALLBACK</text>
+<text x="762" y="449" text-anchor="middle" font-size="15" fill="#475569">Recoverable mismatch</text>
+<text x="762" y="475" text-anchor="middle" font-size="15" fill="#475569">Reconcile and retry</text>
+<rect x="925" y="370" width="245" height="130" rx="22" fill="#fef2f2" stroke="#fca5a5"/>
+<text x="1047" y="414" text-anchor="middle" font-size="19" font-weight="800" fill="#991b1b">REJECT</text>
+<text x="1047" y="449" text-anchor="middle" font-size="15" fill="#475569">Required guarantees absent</text>
+<text x="1047" y="475" text-anchor="middle" font-size="15" fill="#475569">Do not compose evidence</text>
+</g>
+<path d="M762 500V575H520V300" fill="none" stroke="#d97706" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#a)"/>
+<text x="610" y="605" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16" font-weight="700" fill="#92400e">bounded reconciliation → updated evidence → evaluate again</text>
+</svg>
