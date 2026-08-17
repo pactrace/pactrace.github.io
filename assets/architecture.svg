@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 760" role="img" aria-labelledby="title desc">
+<title id="title">PacTrace two-plane architecture</title>
+<desc id="desc">Applications use the Python control plane for adapters, evidence normalization, contracts and policy. Only bounded reconciliation uses Arrow IPC to the Rust data plane.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#64748b"/></marker></defs>
+<rect width="1320" height="760" rx="34" fill="#f8fafc"/>
+<text x="70" y="70" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30" font-weight="750" fill="#0f172a">Control plane for correctness. Data plane for reconciliation.</text>
+<text x="70" y="108" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" fill="#64748b">The Rust path is invoked only when policy requires bounded reconciliation.</text>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+<rect x="70" y="160" width="1180" height="95" rx="22" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="110" y="199" font-size="14" font-weight="800" letter-spacing="1.5" fill="#475569">CALLERS</text>
+<text x="110" y="232" font-size="24" font-weight="750" fill="#0f172a">AI agents · MCP workflows · services · analytics applications</text>
+
+<path d="M660 255V310" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<rect x="160" y="325" width="1000" height="220" rx="28" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+<text x="205" y="369" font-size="15" font-weight="800" letter-spacing="1.5" fill="#1d4ed8">PYTHON CONTROL PLANE</text>
+<text x="205" y="408" font-size="27" font-weight="750" fill="#0f172a">Source semantics, evidence, contracts and decisions</text>
+<text x="205" y="452" font-size="18" fill="#475569">Adapters · provenance normalization · version lineage · freshness · repeatability</text>
+<text x="205" y="486" font-size="18" fill="#475569">Consistency contracts · evaluator · telemetry · fallback orchestration</text>
+
+<rect x="90" y="620" width="210" height="70" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="195" y="663" text-anchor="middle" font-size="17" font-weight="700" fill="#334155">Iceberg / lakehouse</text>
+<rect x="340" y="620" width="210" height="70" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="445" y="663" text-anchor="middle" font-size="17" font-weight="700" fill="#334155">Search / vector index</text>
+<rect x="590" y="620" width="210" height="70" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="695" y="663" text-anchor="middle" font-size="17" font-weight="700" fill="#334155">APIs / MCP tools</text>
+
+<path d="M310 545V592H195V610" fill="none" stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M445 545V610" fill="none" stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M580 545V592H695V610" fill="none" stroke="#64748b" stroke-width="2.5" marker-end="url(#a)"/>
+
+<path d="M850 545V585" stroke="#d97706" stroke-width="3" marker-end="url(#a)"/>
+<text x="875" y="577" font-size="14" font-weight="800" fill="#92400e">WHEN FALLBACK REQUIRES RECONCILIATION</text>
+<rect x="840" y="610" width="390" height="100" rx="22" fill="#fff7ed" stroke="#fdba74"/>
+<text x="875" y="648" font-size="14" font-weight="800" letter-spacing="1.4" fill="#b45309">RUST DATA PLANE</text>
+<text x="875" y="682" font-size="20" font-weight="750" fill="#0f172a">Arrow IPC · bounded indexed/current reconciliation</text>
+</g>
+</svg>
