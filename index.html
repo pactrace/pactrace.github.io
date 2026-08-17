@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PacTrace — Provenance And Consistency Tracker</title>
+<meta name="description" content="PacTrace verifies whether evidence from independently versioned and refreshed systems can be safely used together before an AI agent or distributed application reasons over it.">
+<meta name="theme-color" content="#f8fafc">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="#top" aria-label="PacTrace home">
+      <img src="assets/logo.svg" alt="">
+      <span>PacTrace<small>Provenance And Consistency Tracker</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="#problem">Problem</a>
+      <a href="#use-cases">Use cases</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a class="button small" href="https://github.com/pactrace">GitHub</a>
+    </nav>
+  </div>
+</header>
+<main id="top">
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <p class="eyebrow">Runtime evidence consistency</p>
+      <h1>Know whether your evidence belongs together.</h1>
+      <p class="lede">PacTrace verifies provenance, version lineage, freshness and repeatability before an AI agent or distributed application combines evidence from independently refreshed systems.</p>
+      <p class="lede">Correct facts can still produce the wrong answer when they describe different versions of reality.</p>
+      <div class="hero-actions">
+        <a class="button" href="#problem">See the problem</a>
+        <a class="button secondary" href="#architecture">Architecture</a>
+      </div>
+      <div class="trust-row">
+        <span class="trust">Open source</span>
+        <span class="trust">Python control plane</span>
+        <span class="trust">Rust data plane</span>
+        <span class="trust">Arrow IPC</span>
+        <span class="trust">Apache-2.0</span>
+      </div>
+    </div>
+    <div class="visual"><img src="assets/problem.svg" alt="Current Iceberg snapshot, stale search derivation and live API evidence evaluated by PacTrace"></div>
+  </div>
+</section>
+
+<section class="section alt" id="problem">
+  <div class="shell split">
+    <div class="sticky">
+      <p class="eyebrow">The problem</p>
+      <h2>Successful tool calls do not guarantee a consistent answer.</h2>
+      <p class="lede">A database query can be correct. Search can be healthy. An API response can be current enough for one workflow. That still does not prove the observations describe compatible source states.</p>
+      <div class="callout">PacTrace operates between “the tools returned data” and “the application is allowed to reason over it.”</div>
+    </div>
+    <div class="facts">
+      <div class="fact"><strong>Version drift</strong><span>A derived index represents an older source snapshot.</span></div>
+      <div class="fact"><strong>Freshness drift</strong><span>A live observation exceeds the workflow's acceptable age.</span></div>
+      <div class="fact"><strong>Derivation drift</strong><span>A materialized system no longer represents the source version being queried.</span></div>
+      <div class="fact"><strong>Unknown provenance</strong><span>A tool returns useful data without enough information to establish compatibility.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="section-head">
+      <p class="eyebrow">The solution</p>
+      <h2>Runtime evidence consistency.</h2>
+      <p>PacTrace makes source guarantees explicit, lets each workflow define the consistency it requires, and evaluates compatibility before heterogeneous evidence becomes part of a decision.</p>
+    </div>
+    <div class="challenge-grid">
+      <article class="card"><span class="label">Track provenance</span><h3>Preserve what the source can actually prove.</h3><p>Version, lineage, derivation, observation time, freshness, repeatability and known uncertainty remain first-class evidence semantics.</p></article>
+      <article class="card"><span class="label">Express requirements</span><h3>Consistency belongs to the workflow.</h3><p>An incident workflow can demand zero source lag while an exploratory analytics task may allow bounded staleness.</p></article>
+      <article class="card"><span class="label">Evaluate before reasoning</span><h3>Do not silently compose incompatible states.</h3><p>The contract is evaluated before evidence becomes part of an automated conclusion.</p></article>
+      <article class="card"><span class="label">Recover explicitly</span><h3>Accept, disclose, fallback or reject.</h3><p>Uncertainty is surfaced as a runtime decision rather than converted into implied certainty.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">A concrete contract</p><h2>Small enough to reason about. Explicit enough to enforce.</h2></div>
+    <div class="code-grid">
+      <pre class="code"><code>{
+  "schema_version": "pactrace.contract/v1",
+  "name": "incident-investigation",
+  "requirements": [
+    {"resource": "incidents", "require_repeatable": true},
+    {"resource": "incident_search", "max_source_lag": 0},
+    {"resource": "provider_status", "max_age_seconds": 30}
+  ]
+}</code></pre>
+      <div class="result">
+        <div class="result-row"><span>incidents</span><strong>S105 · repeatable</strong></div>
+        <div class="result-row"><span>incident_search</span><strong>derived from S102</strong></div>
+        <div class="result-row"><span>provider_status</span><strong>observed 21s ago</strong></div>
+        <div class="result-row"><span>decision</span><strong class="status amber">FALLBACK</strong></div>
+        <div class="result-row"><span>reason</span><strong>search is behind required source state</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="use-cases">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Production use cases</p><h2>State drift is independent of model choice.</h2><p>The same runtime problem appears wherever applications combine structured, indexed and live evidence from systems that refresh independently.</p></div>
+    <div class="use-grid">
+      <article class="card use-card"><span class="label">Incident investigation</span><h3>Current events, older incident search, live provider state.</h3><p>An incident agent reads current lakehouse events, searches historical incidents and checks a provider API. PacTrace verifies that the search derivation is compatible with the source state required by the workflow.</p><p class="scenario"><strong>Outcome:</strong> use current search normally or route known drift to bounded reconciliation.</p></article>
+      <article class="card use-card"><span class="label">RAG and enterprise search</span><h3>A healthy index can still be behind its documents.</h3><p>Keyword, vector and hybrid retrieval systems are derived state. PacTrace records which source version produced them and compares that derivation with independently observed current state.</p><p class="scenario"><strong>Outcome:</strong> avoid presenting a stale retrieval result as current simply because the index is available.</p></article>
+      <article class="card use-card"><span class="label">Fraud, payments and risk</span><h3>Make freshness an enforceable contract.</h3><p>A decision may combine current transactions, materialized features, device intelligence and live third-party signals with different update guarantees.</p><p class="scenario"><strong>Outcome:</strong> apply stronger consistency requirements to high-risk decisions than to exploratory analysis.</p></article>
+      <article class="card use-card"><span class="label">Multi-tool agents</span><h3>Normalize heterogeneous tool guarantees without inventing a global clock.</h3><p>An MCP tool may expose a Git commit, a table snapshot, an observation timestamp or no reliable version semantics at all.</p><p class="scenario"><strong>Outcome:</strong> reason over source-native guarantees rather than pretending every tool participates in one transaction.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="architecture">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Architecture</p><h2>Policy stays readable. Reconciliation gets a separate execution boundary.</h2><p>The Python control plane owns source semantics, evidence normalization, contracts, adapters and decisions. The Rust data plane is invoked only for bounded reconciliation and communicates through Arrow IPC.</p></div>
+    <div class="visual"><img src="assets/architecture.svg" alt="PacTrace Python control plane with an optional Rust reconciliation data plane"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Decision model</p><h2>Unknown remains unknown.</h2><p>PacTrace does not subtract opaque version identifiers or invent ordering between unrelated systems. Source-native semantics are preserved, and missing provenance remains an explicit limitation.</p></div>
+    <div class="visual"><img src="assets/decision-path.svg" alt="PacTrace decision flow with accept, disclose, fallback and reject outcomes"></div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Bounded reconciliation</p><h2>Detecting drift is useful. Recovering from it is better.</h2><p>When policy allows recovery, PacTrace can compare bounded indexed/current rows in the Rust data plane. Source adapters remain responsible for obtaining those bounded changes efficiently.</p></div>
+    <div class="visual"><img src="assets/reconciliation.svg" alt="PacTrace bounded indexed and current state reconciliation"></div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Core capabilities</p><h2>A deliberately narrow consistency layer.</h2></div>
+    <div class="feature-grid">
+      <article class="card capability"><div class="num">01</div><div><h3>Provenance-aware evidence</h3><p>Capture source identity, version, derivation, observation time and repeatability.</p></div></article>
+      <article class="card capability"><div class="num">02</div><div><h3>Source-native consistency</h3><p>Iceberg ancestry stays Iceberg ancestry. Timestamps stay timestamps. Opaque versions are not treated as counters.</p></div></article>
+      <article class="card capability"><div class="num">03</div><div><h3>Task-specific contracts</h3><p>Different workflows can require different freshness, lineage and repeatability guarantees.</p></div></article>
+      <article class="card capability"><div class="num">04</div><div><h3>Explicit failure semantics</h3><p>Accept, disclose, fallback or reject instead of silently using uncertain evidence.</p></div></article>
+      <article class="card capability"><div class="num">05</div><div><h3>Bounded reconciliation</h3><p>Recover from known derived-state drift without becoming another query or search engine.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">What PacTrace is not</p><h2>Clear system boundaries matter.</h2></div>
+    <div class="compare"><table><thead><tr><th>Layer</th><th>Primary question</th><th>PacTrace relationship</th></tr></thead><tbody>
+      <tr><td>Semantic layer</td><td>What does this metric or business concept mean?</td><td>Complementary. PacTrace checks whether the observations behind that meaning are coherent now.</td></tr>
+      <tr><td>Lineage catalog</td><td>Where did this data originate and what depends on it?</td><td>Complementary. PacTrace consumes provenance at runtime rather than replacing enterprise lineage.</td></tr>
+      <tr><td>Observability</td><td>Is the pipeline or service healthy?</td><td>Complementary. A healthy index can still represent an older source state.</td></tr>
+      <tr><td>Query/search engine</td><td>How do I execute or retrieve data?</td><td>PacTrace coordinates consistency around those systems instead of replacing them.</td></tr>
+      <tr><td>PacTrace</td><td>Can these independently observed facts be safely used together for this task?</td><td>Core responsibility.</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Implemented today</p><h2>Runtime foundation, not a conceptual mock-up.</h2><p>The project already includes the execution paths required to reproduce a real source/index consistency failure and exercise the Python-to-Rust reconciliation boundary.</p></div>
+    <div class="feature-list">
+      <div>Evidence and contract models</div><div>Version and derivation semantics</div><div>Lineage-aware Iceberg comparison</div><div>Freshness and repeatability evaluation</div><div>Adapter/plugin registry</div><div>Versioned JSON schemas</div><div>Operator CLI</div><div>PyIceberg integration</div><div>Independent FTS5 reference index</div><div>Rust reconciliation service</div><div>Arrow IPC protocol</div><div>Container and cross-language CI</div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Validation</p><h2>The reference failure uses real storage and search.</h2><p>Search is built from one Iceberg snapshot, the source advances, the index is deliberately left behind, and PacTrace independently evaluates the source/derivation mismatch before selecting recovery.</p></div>
+    <div class="proof-grid">
+      <article class="card proof-card"><strong>Real drift</strong><h3>Source advances while search does not.</h3><p>The stale index cannot retrieve the newly appended source row. The evaluator detects the known lineage gap.</p></article>
+      <article class="card proof-card"><strong>Two planes</strong><h3>Python calls Rust over versioned Arrow IPC.</h3><p>The service validates the protocol, reconciles bounded current/indexed state and returns stable row IDs with provenance.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="roadmap">
+  <div class="shell">
+    <div class="section-head"><p class="eyebrow">Roadmap</p><h2>Broaden connectors and evidence workflows without diluting the core boundary.</h2></div>
+    <div class="roadmap-grid">
+      <article class="card roadmap-card current"><h3>0.4 <span>Current foundation</span></h3><ul><li>Python consistency control plane</li><li>Rust/Arrow reconciliation data plane</li><li>Versioned protocols</li><li>Real Iceberg/search validation</li></ul></article>
+      <article class="card roadmap-card"><h3>0.5 <span>Production connectors</span></h3><ul><li>Remote Iceberg catalogs</li><li>OpenSearch / Elasticsearch</li><li>MCP evidence propagation</li><li>OpenTelemetry and adapter conformance</li></ul></article>
+      <article class="card roadmap-card"><h3>0.6 <span>Incremental reconciliation</span></h3><ul><li>Source-native deltas</li><li>Updates and deletes</li><li>Refresh-race handling</li><li>Larger bounded workloads</li></ul></article>
+      <article class="card roadmap-card"><h3>0.7 <span>Evidence sessions</span></h3><ul><li>Multi-tool reasoning provenance</li><li>Decision-level audit trail</li><li>Replayable evidence context</li><li>Fallback history</li></ul></article>
+      <article class="card roadmap-card"><h3>1.0 <span>Stable ecosystem</span></h3><ul><li>Compatibility and deprecation policy</li><li>Production connector suite</li><li>Security review</li><li>External deployment validation</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="shell cta">
+    <div><p class="eyebrow">Open source infrastructure</p><h2>Build a connector. Review the consistency model. Own a system boundary.</h2><p>PacTrace is looking for collaborators across Iceberg and analytical data systems, search, MCP/agent infrastructure, observability, Rust/Arrow systems, reliability and release engineering.</p></div>
+    <a class="button" href="https://github.com/pactrace">View the PacTrace organization</a>
+  </div>
+</section>
+</main>
+<footer><div class="shell footer-row"><span>PacTrace — Provenance And Consistency Tracker</span><div class="footer-links"><a href="https://github.com/pactrace">GitHub</a><a href="#top">Back to top</a></div></div></footer>
+<script src="script.js"></script>
+</body>
+</html>
