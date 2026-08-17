@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 700" role="img" aria-labelledby="title desc">
+<title id="title">PacTrace bounded reconciliation</title>
+<desc id="desc">Indexed rows and current rows are compared. Unchanged indexed rows are retained, stale changed or deleted indexed rows are invalidated, and new or changed current rows are evaluated.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#64748b"/></marker></defs>
+<rect width="1320" height="700" rx="34" fill="#ffffff"/>
+<text x="70" y="70" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30" font-weight="750" fill="#0f172a">Fallback is explicit recovery, not silent freshness guessing.</text>
+<text x="70" y="108" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" fill="#64748b">The data plane reconciles bounded indexed/current rows and returns stable IDs with match provenance.</text>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+<rect x="80" y="180" width="300" height="280" rx="24" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="115" y="220" font-size="15" font-weight="800" letter-spacing="1.4" fill="#475569">INDEXED STATE</text>
+<rect x="115" y="252" width="230" height="54" rx="12" fill="#ffffff" stroke="#cbd5e1"/><text x="135" y="285" font-size="16" fill="#334155">row A · unchanged</text>
+<rect x="115" y="322" width="230" height="54" rx="12" fill="#fff7ed" stroke="#fdba74"/><text x="135" y="355" font-size="16" fill="#92400e">row B · stale/changed</text>
+<rect x="115" y="392" width="230" height="54" rx="12" fill="#fef2f2" stroke="#fca5a5"/><text x="135" y="425" font-size="16" fill="#991b1b">row C · deleted</text>
+
+<rect x="500" y="180" width="300" height="280" rx="24" fill="#eff6ff" stroke="#93c5fd"/>
+<text x="535" y="220" font-size="15" font-weight="800" letter-spacing="1.4" fill="#1d4ed8">CURRENT STATE</text>
+<rect x="535" y="252" width="230" height="54" rx="12" fill="#ffffff" stroke="#cbd5e1"/><text x="555" y="285" font-size="16" fill="#334155">row A · unchanged</text>
+<rect x="535" y="322" width="230" height="54" rx="12" fill="#dbeafe" stroke="#93c5fd"/><text x="555" y="355" font-size="16" fill="#1e3a8a">row B · changed</text>
+<rect x="535" y="392" width="230" height="54" rx="12" fill="#dcfce7" stroke="#86efac"/><text x="555" y="425" font-size="16" fill="#166534">row D · new</text>
+
+<path d="M380 320H485" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<path d="M800 320H905" stroke="#64748b" stroke-width="3" marker-end="url(#a)"/>
+<rect x="920" y="215" width="320" height="210" rx="24" fill="#0f172a"/>
+<text x="955" y="255" font-size="15" font-weight="800" letter-spacing="1.4" fill="#93c5fd">RUST DATA PLANE</text>
+<text x="955" y="300" font-size="18" fill="#ffffff">retain unchanged indexed match</text>
+<text x="955" y="338" font-size="18" fill="#fbbf24">invalidate stale/deleted index rows</text>
+<text x="955" y="376" font-size="18" fill="#86efac">evaluate new/changed current rows</text>
+
+<rect x="430" y="525" width="460" height="105" rx="22" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="660" y="566" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="1.4" fill="#475569">OUTPUT</text>
+<text x="660" y="600" text-anchor="middle" font-size="21" font-weight="750" fill="#0f172a">row IDs + match provenance: index or delta</text>
+</g>
+</svg>
